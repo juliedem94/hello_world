@@ -10,14 +10,11 @@ import time
 import pickle
 
 from openpyxl import load_workbook
-from openpyxl import Workbook
-
 
 
 token = 'a3111388be7e62da597da4f248d5e4eb59880bc749eb487ae163892e077ef5af41dd12144a204c09849f7'
 session = vk.Session(access_token = token) 
 api = vk.API(session, v = '5.45')
-
 
 def loadXLSX(name, list_name):
     wb = load_workbook(name + '.xlsx', data_only = True)
@@ -50,12 +47,9 @@ def loadXLSX(name, list_name):
     
     return data1
     
-''' 
-school_index = loadXLSX('C:/Users/РС/Desktop/school', 'Лист1')
-
-
 h=0
 curr_school = 0
+school_index = loadXLSX('C:/Users/РС/Desktop/school', 'Лист1')
 
 
 while h<34:
@@ -63,21 +57,18 @@ while h<34:
     print('----------------------School '+str(school_index[h]['School'])+'----------------------------------')
     
     curr_school=school_index[h]['School']
-
-    vk_data = api.users.search(school = curr_school,count=1000, birth_year = 1996)
-    users = vk_data['items'] 
-    time.sleep(0.35)
-
-    for curr_user in users:
     
-        pickle.dump(curr_user['id'], open( 'C:/Users/РС/Desktop/111'+ str(curr_school) + '.p', "wb" ))   
+    users=pickle.load(open('C:/Users/РС/Desktop/код/hello_world/data/'+ str(curr_school) + '.p', "rb" ))
     
- 
-    h=h+1  
+    for user in str(users):
+        time.sleep(0.335)  
+        user_friends = api.friends.get(user_id=str(user['id']))['items']
+   
+        pickle.dump(user_friends['id'], open( 'C:/Users/РС/Desktop/код/hello_world/data/'+ 'friends' + str(curr_school) + '.p', "wb" )) 
+                                             
+    h=h+1
 
-'''
-users_id_summ = []
-users_id = pickle.load( open( 'C:/Users/РС/Desktop/код/hello_world/data/29' + '.p', "rb" ) )
-for user_id in range((users_id)):
-    users_id_summ.append(user_id)
-print(users_id_summ)
+
+
+
+
