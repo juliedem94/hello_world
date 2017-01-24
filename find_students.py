@@ -50,7 +50,7 @@ def loadXLSX(name, list_name):
     
     return data1
     
-''' 
+
 school_index = loadXLSX('C:/Users/РС/Desktop/school', 'Лист1')
 
 
@@ -67,17 +67,25 @@ while h<34:
     vk_data = api.users.search(school = curr_school,count=1000, birth_year = 1996)
     users = vk_data['items'] 
     time.sleep(0.35)
-
-    for curr_user in users:
     
-        pickle.dump(curr_user['id'], open( 'C:/Users/РС/Desktop/111'+ str(curr_school) + '.p', "wb" ))   
     
+    users_id = [s['id'] for s in users]
+    #print(users_id)
+    
+    pickle.dump(users_id, open('C:/Users/РС/Desktop/код/hello_world/data/' + str(curr_school) +'.p', "wb" ) )
+        
  
-    h=h+1  
+    h=h+1 
+    
 
-'''
-users_id_summ = []
-users_id = pickle.load( open( 'C:/Users/РС/Desktop/код/hello_world/data/29' + '.p', "rb" ) )
-for user_id in range((users_id)):
-    users_id_summ.append(user_id)
-print(users_id_summ)
+
+
+
+
+
+
+
+
+
+
+
