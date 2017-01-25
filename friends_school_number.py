@@ -5,13 +5,7 @@ Created on Sun Jan 22 16:15:03 2017
 @author: РС
 """
 
-import vk
-import time
-import pickle
-import math
-
-from openpyxl import load_workbook
-
+import vk, math, time, pickle, helpers
 
 token = 'dc8f832ac59fe7e40088dec5ed0a3eb3ed314797f27b22d89f8bc123d4f660afdb03f86be24a0afa87635'
 session = vk.Session(access_token = token) 
@@ -46,45 +40,12 @@ def get_friends(users):
         data = data + sub_data
         print(i + 1, 'out of', max_num)
             
-    return data
-
-def loadXLSX(name, list_name):
-    wb = load_workbook(name + '.xlsx', data_only = True)
-    ws = wb[list_name]
-    col = 1
-    row = 1    
-    fields = []
-    field = True
-    while field:
-        field = ws.cell(row = row, column = col).value    
-        if field:
-            fields.append(field)
-            col += 1
-    
-    data1 = []
-    row += 1
-    not_empty = True
-    while not_empty:
-        entry = {}
-        not_empty = False
-        for i, field in enumerate(fields):
-            col = i + 1
-            val = ws.cell(row = row, column = col).value            
-            entry[field] = val
-            if val:
-                not_empty = True
-        if not_empty:
-            data1.append(entry)
-            row += 1        
-    
-    return data1
-    
-school_index = loadXLSX('C:/Users/РС/Desktop/school', 'Лист1')    
+    return data    
+   
+school_index = helpers.jsonLoad('data/moskovskij.json')   
     
 h=0
 curr_school = 0
-
-
 
 while h<34:
     
@@ -99,8 +60,7 @@ while h<34:
     users_friends_sum = get_friends(users_id)
     
     
-    pickle.dump(users_friends_sum, open( 'C:/Users/РС/Desktop/код/hello_world/data/friends_school_' + str(curr_school) + '.p', "wb" )) 
-                                             
+    helpers.jsonSave('C:/Users/РС/Desktop/код/hello_world/data/friends_school_' + str(curr_school), users_friends_sum)                                             
     h=h+1
     print('------------------done-------------------')
 

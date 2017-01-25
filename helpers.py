@@ -1,4 +1,4 @@
-import json
+import json 
 from openpyxl import load_workbook
 
 def loadXLSX(name, list_name):
@@ -31,6 +31,7 @@ def loadXLSX(name, list_name):
             row += 1        
     
     return data1
+    
     
 def jsonSave(file_name, data):
     file = open(file_name, 'w', encoding = 'utf8')    
