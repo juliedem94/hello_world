@@ -7,12 +7,12 @@ Created on Sun Jan 22 16:15:03 2017
 
 import vk, math, time, pickle, helpers
 
-token = 'dc8f832ac59fe7e40088dec5ed0a3eb3ed314797f27b22d89f8bc123d4f660afdb03f86be24a0afa87635'
+token = '602a5062a5050238895c95c78144a3d68303ebe23d0b6ea64c96fcb913009cd035e3707e1f960f307fc2f'
 session = vk.Session(access_token = token) 
 api = vk.API(session, v = '5.45')
 
 def get_friends(users):
-    data = []
+    data = {}
     max_num = math.floor(len(users) / 20) + 1
     for i in range(0, max_num):
         new_users = users[i * 20:i * 20 + 20]
@@ -28,6 +28,14 @@ def get_friends(users):
             try:
                 time.sleep(0.335)   
                 sub_data = api.execute(code = code_string, timeout = 60)
+                
+                dict_out = {}
+
+                for x, y in zip(new_users, sub_data):
+                    dict_out[x] = y
+                
+                
+                
                 done = True
             except:                
                 error_count += 1
@@ -37,33 +45,31 @@ def get_friends(users):
                     print('Too many errors in a row :(')
                     done = True
             
-        data = data + sub_data
+        data.update(dict_out)
         print(i + 1, 'out of', max_num)
             
     return data    
    
-school_index = helpers.jsonLoad('data/moskovskij.json')   
+school_indexes = helpers.jsonLoad('data/moskovskij.json')   
     
-h=0
+
 curr_school = 0
 
-while h<34:
+for school_index in school_indexes:
+      
+    print('----------------------School '+str(school_index['School'])+'----------------------------------')
     
-    print('----------------------School '+str(school_index[h]['School'])+'----------------------------------')
-    
-    curr_school=school_index[h]['School']
-    
-    users_id=pickle.load(open('C:/Users/РС/Desktop/код/hello_world/data/' + str(curr_school) + '.p', "rb" ))
+    users_ids=pickle.load(open('/код/hello_world/data/' + str(school_index['School']) + '.p', "rb" ))
     
     users_friends_sum =[] 
    
-    users_friends_sum = get_friends(users_id)
+    users_friends_sum = get_friends(users_ids)
+    print(users_friends_sum)
     
-    
-    helpers.jsonSave('C:/Users/РС/Desktop/код/hello_world/data/friends_school_' + str(curr_school), users_friends_sum)                                             
-    h=h+1
-    print('------------------done-------------------')
+    helpers.jsonSave('/код/hello_world/data/friends_school_' + str(school_index['School']), users_friends_sum)                                             
 
+print('------------------done-------------------')
+    
 
 
 
