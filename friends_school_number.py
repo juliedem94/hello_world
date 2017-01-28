@@ -7,7 +7,7 @@ Created on Sun Jan 22 16:15:03 2017
 
 import vk, math, time, pickle, helpers
 
-token = '602a5062a5050238895c95c78144a3d68303ebe23d0b6ea64c96fcb913009cd035e3707e1f960f307fc2f'
+token = '6c09c77ed5bd767484d66021630c6adfc18ac84ed1edea03218a3f2a9bb6489d3ab570a10dc67d8b0d99a'
 session = vk.Session(access_token = token) 
 api = vk.API(session, v = '5.45')
 
@@ -59,14 +59,14 @@ for school_index in school_indexes:
       
     print('----------------------School '+str(school_index['School'])+'----------------------------------')
     
-    users_ids=pickle.load(open('/код/hello_world/data/' + str(school_index['School']) + '.p', "rb" ))
+    users_ids=helpers.jsonLoad('/код/hello_world/data/' + str(school_index['School'])+'.json')
     
     users_friends_sum =[] 
    
     users_friends_sum = get_friends(users_ids)
     print(users_friends_sum)
     
-    helpers.jsonSave('/код/hello_world/data/friends_school_' + str(school_index['School']), users_friends_sum)                                             
+    helpers.jsonSave('/код/hello_world/data/friends_school_' + str(school_index['School']) + '.json', users_friends_sum)                                             
 
 print('------------------done-------------------')
     

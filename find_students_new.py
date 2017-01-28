@@ -11,6 +11,7 @@ api = vk.API(session, v = '5.45')
 
 #%%
 for school in schools:
+    
     print('----------------------School ', school['School'], '----------------------------------')
     time.sleep(1)
     vk_data = api.users.search(school = school['School'], count=1000, birth_year = 1996)

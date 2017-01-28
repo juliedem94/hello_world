@@ -10,7 +10,7 @@ import time
 
 
 
-token = '35a6d6d40b8a212e8bda5f25c5c222ddc65039e8eeacb6b0ac870dd09b75b97a5c76208c1230ca0548685'
+token = '6c09c77ed5bd767484d66021630c6adfc18ac84ed1edea03218a3f2a9bb6489d3ab570a10dc67d8b0d99a'
 session = vk.Session(access_token = token) 
 api = vk.API(session, v = '5.45')
 
@@ -115,6 +115,7 @@ while h<34:
     #считаем среднее для универов, полученных ранее
     universities = []
     good_uni = clean_bots(users)
+    print(good_uni)
     for j in range (len(good_uni)):
         curr_user_uni_list = good_uni[j]
         for k in range (len(curr_user_uni_list)):
