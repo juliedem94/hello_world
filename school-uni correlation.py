@@ -19,11 +19,6 @@ uni_mean=[]
 
 for school_index in school_indexes:
     
-    #get school_mean
-    school_rate=school_index['Rate']
-    school_mean.append(float(school_rate))
-    #print(school_rate)
-    
     #get uni_mean
     print('--------------------School ' + str(school_index['School']) + '----------------------------')
     universities_list=helpers.jsonLoad('/код/hello_world/data/uni_school_' + str(school_index['School']) + '.json')
@@ -32,21 +27,31 @@ for school_index in school_indexes:
     qty=0
     
     for curr_university in universities_list.values():
-        #print(curr_university)
-        for curr_rate in universities_rates:
+       #print(curr_university)
+    
+       for curr_rate in universities_rates:
             if curr_rate['Name']==curr_university:
                 if curr_rate['Rate'] !=None:
             
                     qty+=1
                     summ+=curr_rate['Rate']
-
+                       
+    
     if qty !=0: 
         mean = summ/qty
         uni_mean.append(mean)
         print(mean)
-    else:
-        print(0)
-        uni_mean.append(0)
+    
+    curr_school_uni_qty=0
+    for a in universities_list: 
+        curr_school_uni_qty+=1
+        
+    if curr_school_uni_qty > 0:
+        school_rate=school_index['Rate']
+        school_mean.append(float(school_rate))
+        
+        #print(curr_school_uni_qty)        
+        
 print(school_mean)
 print(uni_mean)
     
