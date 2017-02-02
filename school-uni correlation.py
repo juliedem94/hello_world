@@ -35,7 +35,7 @@ for school_index in school_indexes:
         #print(curr_university)
         for curr_rate in universities_rates:
             if curr_rate['Name']==curr_university:
-                #if curr_rate['Rate'] !=None:
+                if curr_rate['Rate'] !=None:
             
                     qty+=1
                     summ+=curr_rate['Rate']
@@ -59,4 +59,4 @@ print(stats.pearsonr(uni_mean, school_mean))
 #строим график
 import matplotlib.pyplot as plt
 plt.scatter(uni_mean, school_mean)
-
+plt.savefig('/код/hello_world/data/uni-school corr 1.pdf')
