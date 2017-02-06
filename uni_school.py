@@ -6,16 +6,16 @@ Created on Fri Jan 27 13:49:47 2017
 """
 import vk, math, time, helpers
 
-token = '78bc126e0670dacedcc062b905bd83b5e275a5c9e760c60029fc5a4291c9b3c5f2b2f63f0930760b8ad6c'
+token = 'e7f074457244c512f745a3bfbe1792179e1eb63871ae8da751d77a57c1f32f5e5b137a265dac7247ee9cd'
 session = vk.Session(access_token = token) 
 api = vk.API(session, v = '5.45')
 
-school_indexes = helpers.jsonLoad('/код/hello_world/data/moskovskij.json')  
+school_indexes = helpers.jsonLoad('D:/Anacona & Github/код/hello_world/towns/centralnyj.json')  
 
 #шаг 1: загрузить айди учеников школ и посмотреть есть ли хоть один из них в друзьях друг у друга
 for school_index in school_indexes:
     print('----------------------School '+str(school_index['School'])+'----------------------------------')
-    users_and_friends = helpers.jsonLoad('/код/hello_world/data/friends_school_' + str(school_index['School']) + '.json') 
+    users_and_friends = helpers.jsonLoad('D:/Anacona & Github/код/hello_world/data centralnyj/friends_school_' + str(school_index['School']) + '.json') 
 
     true_users=[]
 
@@ -51,7 +51,7 @@ for school_index in school_indexes:
                 curr_school_unis[curr_user_id]=uni_info_list[k]['name']
                     
                     
-    helpers.jsonSave('/код/hello_world/data/uni_school_' + str(school_index['School']) + '.json', curr_school_unis)                                             
+    helpers.jsonSave('D:/Anacona & Github/код/hello_world/data centralnyj/uni_school_' + str(school_index['School']) + '.json', curr_school_unis)                                             
     print('---------------DONE--------------------')
    
      

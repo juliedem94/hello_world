@@ -10,12 +10,12 @@ import time
 import helpers
 
 
-token = 'd1419d9d16f7374d62092b30e15eab12ab04a63e31f1d97dc3082e309d1425dbccf63113bd505027ca796'
+token = 'e7f074457244c512f745a3bfbe1792179e1eb63871ae8da751d77a57c1f32f5e5b137a265dac7247ee9cd'
 session = vk.Session(access_token = token) 
 api = vk.API(session, v = '5.45')
 
 
-school_indexes = helpers.loadXLSX('/код/hello_world/data/school', 'Лист1')
+school_indexes = helpers.jsonLoad('D:/Anacona & Github/код/hello_world/towns/centralnyj.json')
 
 
 for school_index in school_indexes:
@@ -30,7 +30,7 @@ for school_index in school_indexes:
     users_id = [s['id'] for s in users]
     #print(users_id)
     
-    helpers.jsonSave('/код/hello_world/data/' + str(school_index['School']) +'.json', users_id)
+    helpers.jsonSave('D:/Anacona & Github/код/hello_world/data centralnyj/' + str(school_index['School']) +'.json', users_id)
    
     
 

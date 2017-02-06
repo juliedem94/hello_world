@@ -7,7 +7,7 @@ Created on Sun Jan 22 16:15:03 2017
 
 import vk, math, time, pickle, helpers
 
-token = '6c09c77ed5bd767484d66021630c6adfc18ac84ed1edea03218a3f2a9bb6489d3ab570a10dc67d8b0d99a'
+token = 'e7f074457244c512f745a3bfbe1792179e1eb63871ae8da751d77a57c1f32f5e5b137a265dac7247ee9cd'
 session = vk.Session(access_token = token) 
 api = vk.API(session, v = '5.45')
 
@@ -50,7 +50,7 @@ def get_friends(users):
             
     return data    
    
-school_indexes = helpers.jsonLoad('data/moskovskij.json')   
+school_indexes = helpers.jsonLoad('D:/Anacona & Github/код/hello_world/towns/centralnyj.json')   
     
 
 curr_school = 0
@@ -59,14 +59,14 @@ for school_index in school_indexes:
       
     print('----------------------School '+str(school_index['School'])+'----------------------------------')
     
-    users_ids=helpers.jsonLoad('/код/hello_world/data/' + str(school_index['School'])+'.json')
+    users_ids=helpers.jsonLoad('D:/Anacona & Github/код/hello_world/data centralnyj/' + str(school_index['School'])+'.json')
     
     users_friends_sum =[] 
    
     users_friends_sum = get_friends(users_ids)
     print(users_friends_sum)
     
-    helpers.jsonSave('/код/hello_world/data/friends_school_' + str(school_index['School']) + '.json', users_friends_sum)                                             
+    helpers.jsonSave('D:/Anacona & Github/код/hello_world/data centralnyj/friends_school_' + str(school_index['School']) + '.json', users_friends_sum)                                             
 
 print('------------------done-------------------')
     
