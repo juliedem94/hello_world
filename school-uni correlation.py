@@ -16,8 +16,10 @@ universities_rates = helpers.loadXLSX('D:/Anacona & Github/код/hello_world/un
 
 school_mean=[]
 uni_mean=[]
+school_id=[]
 
 for school_index in school_indexes:
+    
     
     #get uni_mean
     print('--------------------School ' + str(school_index['School']) + '----------------------------')
@@ -42,26 +44,40 @@ for school_index in school_indexes:
         uni_mean.append(mean)
         print(mean)
     
-        curr_school_uni_qty=0
-        for a in universities_list: 
-            curr_school_uni_qty+=1
-        
-        if curr_school_uni_qty > 0:
-            school_rate=school_index['Rate']
-            school_mean.append(float(school_rate))
-        
-        #print(curr_school_uni_qty)        
+        school_mean.append(float(school_index['Rate']))
+    
+        students=helpers.jsonLoad('D:/Anacona & Github/код/hello_world/data centralnyj/' + str(school_index['School']) + '.json')
+            
+        students_number=0
+        for student in students:
+            students_number+=1
+                
+        school_id.append(str(school_index['School']) + '('+ str(students_number) + ')')
+           
+#print(curr_school_uni_qty)        
         
 print(school_mean)
 print(uni_mean)
-    
-#correlation and graph
+print(school_id)
 
+#correlation and graph
+   
 from scipy import stats
 print ('--------------------------corr------------------------------')
 print(stats.pearsonr(uni_mean, school_mean))
 
 #строим график
 import matplotlib.pyplot as plt
+plt.figure(figsize=(25,25))
+plt.plot(range(5))
+plt.ylim(30,100)
+plt.xlim(30,100)
+plt.xlabel('university')
+plt.ylabel('school')
+plt.gca().set_aspect('equal', adjustable='box')
 plt.scatter(uni_mean, school_mean)
-plt.savefig('D:/Anacona & Github/код/hello_world/data centralnyj/uni-school corr 1.pdf')
+for i, txt in enumerate(school_id):
+    plt.annotate(txt, (uni_mean [i],school_mean [i]))
+'''for k, txt in enumerate(students_numbers):
+    plt.annotate(txt, (school_mean [k], uni_mean [k]))  '''  
+plt.savefig('D:/Anacona & Github/код/hello_world/data centralnyj/centralnyj_corr.pdf')
