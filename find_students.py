@@ -10,12 +10,14 @@ import time
 import helpers
 
 
-token = 'e7f074457244c512f745a3bfbe1792179e1eb63871ae8da751d77a57c1f32f5e5b137a265dac7247ee9cd'
+token = 'a564bbc9a25bb90f00991f7ca27b135c7809326e2cd9165174ea114f96e3b216a80e0862b3ef419372fcb'
 session = vk.Session(access_token = token) 
 api = vk.API(session, v = '5.45')
 
+region='C:/код/hello_world/data petrogradskij/'
+file_name='petrogradskij.json'
 
-school_indexes = helpers.jsonLoad('D:/Anacona & Github/код/hello_world/towns/centralnyj.json')
+school_indexes = helpers.jsonLoad(region + file_name)
 
 
 for school_index in school_indexes:
@@ -30,7 +32,7 @@ for school_index in school_indexes:
     users_id = [s['id'] for s in users]
     #print(users_id)
     
-    helpers.jsonSave('D:/Anacona & Github/код/hello_world/data centralnyj/' + str(school_index['School']) +'.json', users_id)
+    helpers.jsonSave(region + str(school_index['School']) +'.json', users_id)
    
     
 

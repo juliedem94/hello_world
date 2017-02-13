@@ -7,14 +7,12 @@ Created on Wed Feb  1 11:39:32 2017
 
 import helpers
 
-
-
-region= 'D:/Anacona & Github/код/hello_world/data moskovskij/'
-school_indexes=helpers.jsonLoad(region + 'moskovskij.json')
-universities_rates = helpers.loadXLSX('D:/Anacona & Github/код/hello_world/uni','ВК Имена')
-schools=helpers.jsonLoad('D:/Anacona & Github/код/hello_world/data/schools.json')
-
-def uni_school_plot(region, number):
+def plot(region, n):
+    school_indexes=helpers.jsonLoad(region + file_name)
+    universities_rates = helpers.loadXLSX('C:/код/hello_world/uni','ВК Имена')
+    schools=helpers.jsonLoad('C:/код/hello_world/data/schools.json')
+    
+    
     school_mean=[]
     uni_mean=[]
     school_id=[]
@@ -41,7 +39,7 @@ def uni_school_plot(region, number):
                         summ+=curr_rate['Rate']
                            
         
-        if qty !=0: 
+        if qty > n: 
             mean = summ/qty
             uni_mean.append(mean)
             print(mean)
@@ -51,11 +49,13 @@ def uni_school_plot(region, number):
             school_dict=schools.get(str(school_index['School']))
             school_name=school_dict.get("name")
             school_id.append(str(school_name) + '('+ str(qty) + ')')
-                    
-          
-    print(school_mean)
-    print(uni_mean)
-    print(school_id)
+                   
+    if len(uni_mean) == 0:
+        return ('out of students')
+    else:      
+        print(school_mean)
+        print(uni_mean)
+        print(school_id)
     
     #correlation and graph
        
@@ -64,7 +64,9 @@ def uni_school_plot(region, number):
     print(stats.pearsonr(uni_mean, school_mean))
     
     #строим график
+    import matplotlib as mpl
     import matplotlib.pyplot as plt
+    mpl.rc('font', family='Arial')
     plt.figure(figsize=(25,25))
     plt.plot(range(5))
     plt.ylim(30,100)
@@ -75,4 +77,40 @@ def uni_school_plot(region, number):
     plt.scatter(uni_mean, school_mean)
     for i, txt in enumerate(school_id):
         plt.annotate(txt, (uni_mean [i],school_mean [i]))
-    plt.savefig(region + 'moskovskij_corr_1.pdf')
+    plt.savefig(region + 'corr.N=' + str(n) + '.pdf')
+
+    
+
+    
+n=0
+region= 'C:/код/hello_world/data petrogradskij/'
+file_name = 'petrogradskij.json'    
+
+for n in range (100):   
+    plot(region, n)    
+    print('done')    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
