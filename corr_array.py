@@ -101,7 +101,7 @@ regions=[]
 regions.append('moskovskij')
 regions.append('admiraltejskij')
 regions.append('centralnyj')
-'''regions.append('frunzenskij')
+regions.append('frunzenskij')
 regions.append('kalininskij')
 regions.append('kirovskij')
 regions.append('kolpinskij')
@@ -115,7 +115,7 @@ regions.append('petrogradskij')
 regions.append('primorskij')
 regions.append('pushkinskij')
 regions.append('vasileostrovskij')
-regions.append('vyborgskij')'''
+regions.append('vyborgskij')
 
 root = 'C:/код/hello_world/'
 
@@ -157,27 +157,50 @@ for curr_reg in regions:
 
 ''' строим общие графики'''
     
-curr_n = 3
 
-uni_mean_overall = []
-school_mean_overall = []
-school_id_overall = []
+    
+for curr_n in range(20):
+    
+    uni_mean_overall = []
+    school_mean_overall = []
+    school_id_overall = []
+    
+    for curr_reg in regions:
+    
+        curr_reg_data = dict_overall[curr_reg]
+        curr_n_data = curr_reg_data.get(curr_n)
+        
+        if curr_n_data != None:
+            
+            for el in range(len(curr_n_data['uni_mean'])):
+                uni_mean_overall.append(curr_n_data['uni_mean'][el])
+                school_mean_overall.append(curr_n_data['school_mean'][el])
+                school_id_overall.append(curr_n_data['school_id'][el])
+
+                
+    if len(uni_mean_overall) > 0:
+        #строим график scatter для всех регионов при curr_n
+        import matplotlib as mpl
+        import matplotlib.pyplot as plt
+        mpl.rc('font', family='Arial')
+        plt.figure(figsize=(25,25))
+        plt.plot(range(5))
+        plt.ylim(30,100)
+        plt.xlim(30,100)
+        plt.xlabel('university')
+        plt.ylabel('school')
+        plt.gca().set_aspect('equal', adjustable='box')
+        plt.scatter(uni_mean_overall, school_mean_overall)
+        for i, txt in enumerate(school_id_overall):
+            plt.annotate(txt, (uni_mean_overall [i],school_mean_overall [i]))
+        plt.savefig(root + 'corr.overall.N=' + str(curr_n) + '.pdf')    
+    
+            
+ 
+        
+        
 n_list_overall = []
 corr_list_overall = [] 
-    
-for curr_reg in regions:
-
-    curr_reg_data = dict_overall[curr_reg]
-    curr_n_data = curr_reg_data[curr_n]
-    
-
-    for el in range(len(curr_n_data['uni_mean'])):
-        uni_mean_overall.append(curr_n_data['uni_mean'][el])
-        school_mean_overall.append(curr_n_data['school_mean'][el])
-        school_id_overall.append(curr_n_data['school_id'][el])
-
-        
-       
         
 for n_oa in range(100):
     
@@ -200,26 +223,6 @@ for n_oa in range(100):
         corr_list_overall.append(stats.pearsonr(curr_n_uni_mean, curr_n_school_mean)[0])
                
         
-    
-        
- #строим график scatter для всех регионов при curr_n
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-mpl.rc('font', family='Arial')
-plt.figure(figsize=(25,25))
-plt.plot(range(5))
-plt.ylim(30,100)
-plt.xlim(30,100)
-plt.xlabel('university')
-plt.ylabel('school')
-plt.gca().set_aspect('equal', adjustable='box')
-plt.scatter(uni_mean_overall, school_mean_overall)
-for i, txt in enumerate(school_id_overall):
-    plt.annotate(txt, (uni_mean_overall [i],school_mean_overall [i]))
-plt.savefig(root + 'corr.overall.N=' + str(curr_n) + '.pdf')
-
-
-
  #строим график корреляций для всех районов
 import matplotlib as mpl
 import matplotlib.pyplot as pltoa
