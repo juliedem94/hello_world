@@ -7,6 +7,8 @@ Created on Mon Mar 27 14:19:25 2017
 
 import helpers
 from collections import Counter
+import numpy as np
+import pandas as pd
 
 users_groups=helpers.jsonLoad('C:/код/hello_world/упражнение/groups.json')
 
@@ -34,6 +36,7 @@ for k in count_groups:
 #print(groups_100)
 # 3 микро шаг. набрать пользователей, кот подписаны на больше чем 100 групп
 users_100=[]
+users_100_ids=[]
 l=0
 #print(groups_100)
 #print(len(groups_100))
@@ -51,15 +54,31 @@ for j in users_groups:
         if counter>=100:
             print(j.get('id') + '-----------------------')
             print(counter)  
-            users_100.append(j.get('id'))
+            users_100_ids.append(j.get('id'))
+            users_100.append(j)
             
-            
-print(users_100)
-print(len(users_100))
-'''users_100.append(j.get('id'))
-        
-   
-print(users_100)
+#print(users_100)
 #print(len(users_100))
-'''
 
+
+x=len(users_100)
+y=len(groups_100)
+matrix = np.zeros((x,y), dtype=np.int)
+
+icount = 0
+for i in users_100:
+    qcount = 0
+    for q in groups_100:
+        
+        gr=i.get('groups')
+        
+        if q in gr:
+            matrix[icount,qcount] = 1
+        qcount+=1
+    icount+=1
+ 
+
+df = pd.DataFrame(matrix, index=users_100_ids, columns=groups_100)
+df.to_csv('df.csv', index=True, header=True, sep=';')
+
+print(np.sum(matrix))
