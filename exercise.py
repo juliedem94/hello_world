@@ -60,7 +60,7 @@ for j in users_groups:
 #print(users_100)
 #print(len(users_100))
 
-
+#сделали матрицу пользователей и групп
 x=len(users_100)
 y=len(groups_100)
 matrix = np.zeros((x,y), dtype=np.int)
@@ -81,4 +81,82 @@ for i in users_100:
 df = pd.DataFrame(matrix, index=users_100_ids, columns=groups_100)
 df.to_csv('df.csv', index=True, header=True, sep=';')
 
-print(np.sum(matrix))
+#print(np.sum(matrix))
+
+# матрица пола пользователей
+users_sex=helpers.jsonLoad('C:/код/hello_world/упражнение/info.json')
+z_dict={}
+for z in users_sex:
+    z_sex= z.get('sex')
+    z_id=z.get('id')
+    z_dict[str(z_id)]=str(z_sex)
+#print(z_dict)
+    
+x=len(users_100)
+y=1
+matrix2 = np.zeros((x,y), dtype=np.int)
+
+ccount = 0
+for c in users_100_ids:
+    d=z_dict.get(c)    
+    matrix2[ccount,0] = d
+    ccount+=1
+ 
+
+df2 = pd.DataFrame(matrix2, index=users_100_ids)
+df2.to_csv('df2.csv', index=True, header=True, sep=';')
+
+#Regression
+from sklearn import linear_model
+X=matrix
+y=matrix2
+regr = linear_model.LogisticRegression()
+regr.fit(X,y.ravel())
+
+
+count = 0
+for i in range(len(matrix)):
+    print('=========================================================')
+    print(i)
+    print(users_100_ids[i])
+    print(matrix2[i,0])
+    print(regr.predict(matrix[i].reshape(1,-1)))
+    if regr.predict(matrix[i].reshape(1,-1))[0] == matrix2[i,0]:
+        count+=1
+   
+    
+print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+print(count)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
