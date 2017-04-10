@@ -108,32 +108,26 @@ df2.to_csv('df2.csv', index=True, header=True, sep=';')
 
 #Regression
 from sklearn import linear_model
-for i in range(19):
-    print('=-=-=-=-=-=-=-=-=-=-=-=-=-')
-    print(i)
-    X=matrix[0:810, 0:i]
-    y=matrix2
-    #print(X)
-    regr = linear_model.LogisticRegression()
-    
-    print(regr.fit(X,y))
+X=matrix
+y=matrix2
+regr = linear_model.LogisticRegression()
+regr.fit(X,y.ravel())
 
-    '''count = 0
-    for i in range(19):
-        print('=========================================================')
-        print(i)
-        print(users_100_ids[i])
-        #print(matrix2[i,0])
-        print(regr.predict_proba(X))
-        if regr.predict(X)[0] == matrix2[i,0]:
-            count+=1
-        else:
-            print('wrong sex')
-       
+
+count = 0
+for i in range(len(matrix)):
+    print('=========================================================')
+    print(i)
+    print(users_100_ids[i])
+    print(matrix2[i,0])
+    print(regr.predict(matrix[i].reshape(1,-1)))
+    if regr.predict(matrix[i].reshape(1,-1))[0] == matrix2[i,0]:
+        count+=1
+   
     
 print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 print(count)
-'''
+
 
 
 
