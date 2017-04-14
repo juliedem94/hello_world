@@ -109,8 +109,11 @@ df2.to_csv('df2.csv', index=True, header=True, sep=';')
 #Regression
 from sklearn import linear_model
 count = 0
+n_list=[]
+reg_list=[]
+regr_dict={}
 
-for ii in range(5):
+for ii in range(1,1000):
 
     X=matrix[:, 0:ii]
     y=matrix2
@@ -120,11 +123,31 @@ for ii in range(5):
 
 
     print('=========================================================')
-    print(ii)
-    print(users_100_ids[ii])
-    print(matrix2[ii,0])
+    #print(ii)
+    #print(users_100_ids[ii])
+    #11111print(matrix2[ii,0])
+    print(count)
     print(regr.score(X,y))
-   
+    if regr.score(X,y) > 0.5:
+        print('2')
+    n_list.append(ii)
+    reg_list.append(regr.score(X,y))  
+    regr_dict[int(count)]=float(regr.score(X,y))
+    count+=1
+print(regr_dict)
+helpers.jsonSave('C:/код/hello_world/regression.json', regr_dict)
+  
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+mpl.rc('font', family='Arial')
+#plt.figure(figsize=(25,25))
+plt.xlabel('N')
+plt.ylabel('Regression')
+plt.ylim(0.6,1.2)
+plt.xlim(0,1000)
+plt.plot(n_list,reg_list)
+plt.savefig('C:/код/hello_world/Regression_groops_sex.pdf')
+
    
     
 
