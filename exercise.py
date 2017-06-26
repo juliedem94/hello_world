@@ -10,7 +10,7 @@ from collections import Counter
 import numpy as np
 import pandas as pd
 
-users_groups=helpers.jsonLoad('C:/код/hello_world/упражнение/groups.json')
+users_groups=helpers.jsonLoad('D:/код/hello_world/упражнение/groups.json')
 
 # 1 микро шаг - делаем спсиок уникальных группп и считаем их количество
 g_list=[]
@@ -84,14 +84,14 @@ df.to_csv('df.csv', index=True, header=True, sep=';')
 #print(np.sum(matrix))
 
 # матрица пола пользователей
-users_sex=helpers.jsonLoad('C:/код/hello_world/упражнение/info.json')
+users_sex=helpers.jsonLoad('D:/код/hello_world/упражнение/info.json')
 z_dict={}
 for z in users_sex:
     z_sex= z.get('sex')
     z_id=z.get('id')
     z_dict[str(z_id)]=str(z_sex)
-#print(z_dict)
-    
+#print(hhh)
+
 x=len(users_100)
 y=1
 matrix2 = np.zeros((x,y), dtype=np.int)
@@ -106,36 +106,54 @@ for c in users_100_ids:
 df2 = pd.DataFrame(matrix2, index=users_100_ids)
 df2.to_csv('df2.csv', index=True, header=True, sep=';')
 
+#print(matrix2)
 #Regression
 from sklearn import linear_model
 count = 0
-n_list=[]
-reg_list=[]
-regr_dict={}
+n_list1=[]
+reg_list1=[]
+regr_dict1={}
 
-for ii in range(1,1000):
+n_list2=[]
+reg_list2=[]
+regr_dict2={}
 
-    X=matrix[:, 0:ii]
-    y=matrix2
+from sklearn.decomposition import PCA
+pca = PCA(n_components = min(matrix.shape))
+M_pca = pca.fit_transform(matrix)
+
+for ii in range(1,500):
+    
+    X1=M_pca[0:548, 0:ii]
+    y1=matrix2[0:548,:]
+    X2=M_pca[548:, 0:ii]
+    y2=matrix2[548:,:]
     regr = linear_model.LogisticRegression()
-    regr.fit(X,y.ravel())
-
-
+    regr.fit(X1,y1.ravel())
 
     print('=========================================================')
     #print(ii)
     #print(users_100_ids[ii])
     #11111print(matrix2[ii,0])
     print(count)
-    print(regr.score(X,y))
-    if regr.score(X,y) > 0.5:
-        print('2')
-    n_list.append(ii)
-    reg_list.append(regr.score(X,y))  
-    regr_dict[int(count)]=float(regr.score(X,y))
+    print(regr.score(X1,y1))
+    print(regr.score(X2,y2))
+    
+    n_list1.append(ii)
+    reg_list1.append(regr.score(X1,y1))  
+    n_list2.append(ii)
+    reg_list2.append(regr.score(X2,y2))  
+
+    regr_dict1[int(count)]=float(regr.score(X1,y1))
+    regr_dict2[int(count)]=float(regr.score(X2,y2))
+
     count+=1
-print(regr_dict)
-helpers.jsonSave('C:/код/hello_world/regression.json', regr_dict)
+print(regr.predict(X1))
+print(regr.predict(X2))
+
+#print(regr_dict)
+helpers.jsonSave('D:/код/hello_world/regression1.json', regr_dict1)
+helpers.jsonSave('D:/код/hello_world/regression2.json', regr_dict2)
   
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -144,11 +162,12 @@ mpl.rc('font', family='Arial')
 plt.xlabel('N')
 plt.ylabel('Regression')
 plt.ylim(0.6,1.2)
-plt.xlim(0,1000)
-plt.plot(n_list,reg_list)
-plt.savefig('C:/код/hello_world/Regression_groops_sex.pdf')
+plt.xlim(0,500)
+plt.plot(n_list1,reg_list1)
+plt.savefig('D:/код/hello_world/Regression_groops_sex3.pdf')
 
-   
+plt.plot(n_list2,reg_list2)
+plt.savefig('D:/код/hello_world/Regression_groops_sex4.pdf')
     
 
 
