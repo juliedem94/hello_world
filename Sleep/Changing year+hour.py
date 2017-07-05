@@ -10,12 +10,15 @@ import pickle, helpers
 from datetime import datetime
 import tzlocal
 from collections import Counter
+import collections
 from matplotlib import pyplot as plt
+import matplotlib.patches as mpatches
 
-data = pickle.load(open('D:/код/hello_world/Sleep/poststime1993.p', 'rb'))
-users_by_years={}
 
-i=0
+'''data = pickle.load(open('D:/код/hello_world/Sleep/poststime1993.p', 'rb'))
+users_by_years2={}
+
+#i=0
 for user in data:
     new_time={}
     value = data[user]         
@@ -33,16 +36,18 @@ for user in data:
             curr_posts.append(int(z[11:13]))
             new_time[z[0:4]]=curr_posts
                     
-    users_by_years[user]=new_time    
-               
-    i+=1
-    if i==100:
-        break;    
+    users_by_years2[user]=new_time  
+helpers.jsonSave('D:/код/hello_world/Sleep/Users_by_years.json',users_by_years2)                  
+print('Fin')'''                  
+          
+    #i+=1
+    #if i==100:
+        #break;    
     
 
 #print(users_by_years)
 
-
+users_by_years = helpers.jsonLoad('D:/код/hello_world/Sleep/Users_by_years.json')
 common={}
 
 for user in users_by_years: 
@@ -54,18 +59,23 @@ for user in users_by_years:
        
         temporary_list=[] #список долей часов          
         temp_length=len(temporary[year])
-        
-        #if temp_length>=50000:
-    
-        count=Counter(temporary[year])
-        for i in range(0, 24):
-            temporary_list.append(count[i] / temp_length)
-        
-        curr_user_parts[year] = temporary_list
-        
-    common[user] = curr_user_parts          
+        #print(temp_length)
+        if temp_length <= 20:
+            #print("+")
+            count=Counter(temporary[year])
+            for i in range(0, 24):
+                temporary_list.append(count[i] / temp_length)
             
-    
+            curr_user_parts[year] = temporary_list
+                           
+        else:
+            #print("-")
+            continue                   
+        
+    common[user] = curr_user_parts   
+              
+             
+        
 #print(common)
 
 posts_by_years = {}
@@ -97,11 +107,18 @@ for user in common:
 #print(posts_by_years)            
 
 common_length=len(common)
+posts_by_years_s = collections.OrderedDict(sorted(posts_by_years.items()))
+plt.figure(figsize=(20,10))
 
-for year in posts_by_years:
+jj = 0.5
+handles = []
+for year in posts_by_years_s:
     print(year)
     common2 = []
-    curr_year = posts_by_years[year]
+    curr_year = posts_by_years_s[year]
+    
+   
+    
     for ii in range(0,24):
         common2.append(curr_year[ii]/curr_year[24])
     
@@ -114,10 +131,19 @@ for year in posts_by_years:
         labels.append(ii)    
     
     
-    plt.plot(result)
-    plt.xticks(range(0, 24), labels)
-    plt.show()
-    plt.savefig('D:/код/hello_world/Sleep/publish-hour-by-year-' + year + '.pdf')
-    plt.gcf().clear()
     
+    patch = mpatches.Patch(color=(0.1, 0.2, 0.5, jj), label=year)
+    handles.append(patch)
+   
+   
+    plt.plot(result,c=(0.1, 0.2, 0.5, jj))  
+    plt.xticks(range(0, 24), labels)
+    #plt.show()
+    
+    #plt.gcf().clear()
+    jj=jj+0.03
+       
+#plt.figure(figsize=(20,10))    
+plt.legend(handles=handles)    
+plt.savefig('D:/код/hello_world/Sleep/publish-hour-by-year-1111'  + '.pdf')
 #helpers.jsonSave('D:/код/hello_world/Sleep/Poststimeyear.json',temporary) 
